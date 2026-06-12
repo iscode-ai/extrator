@@ -766,7 +766,7 @@ async function fetchAllLeads(query, apiKey, lang, limit) {
       start: start,
       api_key: apiKey,
     });
-    const url = `https://serpapi.com/search?${params}`;
+const url = `https://serpapi.com/search.json?${params}`;
     const res = await fetch(url);
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
