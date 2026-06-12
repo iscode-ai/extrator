@@ -22,262 +22,332 @@
     --danger: #ef4444;
     --warn: #f59e0b;
     --ring: 0 0 0 3px rgba(45,212,191,.18);
-    --status-new: rgba(45,212,191,.12);
-    --status-contacted: rgba(245,158,11,.12);
-    --status-interested: rgba(82,189,133,.12);
-    --status-discarded: rgba(239,68,68,.08);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
-  body { background: var(--bg); color: var(--text); font: 400 14px/1.6 "Inter", system-ui, sans-serif; min-height: 100vh; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 400 14px/1.6 "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+  }
 
-  .page { max-width: 1200px; margin: 0 auto; padding: 28px 20px 80px; }
+  .page { max-width: 1160px; margin: 0 auto; padding: 28px 20px 60px; }
 
   /* ── Top bar ── */
-  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 12px; flex-wrap: wrap; }
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 28px; gap: 12px; flex-wrap: wrap;
+  }
   .brand { display: flex; align-items: center; gap: 12px; }
-  .brand-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg,rgba(82,189,133,.55),rgba(45,212,191,.55)); border: 1px solid rgba(82,189,133,.3); display: grid; place-items: center; flex-shrink: 0; }
+  .brand-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg,rgba(82,189,133,.55),rgba(45,212,191,.55));
+    border: 1px solid rgba(82,189,133,.3);
+    display: grid; place-items: center; flex-shrink: 0;
+  }
   .brand-icon svg { width: 20px; height: 20px; stroke: #e4eaf3; }
   .brand-name { font-size: 17px; font-weight: 800; letter-spacing: -.2px; }
   .brand-sub { font-size: 12px; color: var(--muted2); margin-top: 1px; }
-  .topbar-actions { display: flex; gap: 8px; align-items: center; }
 
-  /* ── Tabs ── */
-  .tabs { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 18px; width: fit-content; }
-  .tab-btn { padding: 8px 18px; border-radius: 9px; border: none; background: transparent; color: var(--muted2); font-size: 13px; font-weight: 600; cursor: pointer; transition: all .13s; white-space: nowrap; }
-  .tab-btn.active { background: rgba(45,212,191,.15); color: var(--acc2); }
-  .tab-btn:hover:not(.active) { background: rgba(255,255,255,.04); color: var(--text); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* ── API Keys ── */
-  .api-bar { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  /* ── API Key config ── */
+  .api-bar {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 20px;
+    margin-bottom: 20px; display: flex; align-items: center;
+    gap: 14px; flex-wrap: wrap;
+  }
   .api-bar label { font-size: 12px; color: var(--muted2); white-space: nowrap; font-weight: 500; letter-spacing: .3px; text-transform: uppercase; }
-  .api-bar input { flex: 1; min-width: 220px; background: #0d1018; border: 1px solid var(--border2); border-radius: 10px; padding: 10px 14px; color: var(--text); font-size: 14px; outline: none; transition: border .15s, box-shadow .15s; }
+  .api-bar input[type=text], .api-bar input[type=password] {
+    flex: 1; min-width: 220px;
+    background: #0d1018; border: 1px solid var(--border2);
+    border-radius: 10px; padding: 10px 14px;
+    color: var(--text); font-size: 14px; outline: none;
+    transition: border .15s, box-shadow .15s;
+  }
   .api-bar input:focus { border-color: var(--acc2); box-shadow: var(--ring); }
   .api-saved { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--acc); }
   .api-saved::before { content: ''; display: block; width: 7px; height: 7px; border-radius: 50%; background: var(--acc); }
 
-  /* ── Search ── */
-  .search-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 22px 18px; margin-bottom: 16px; }
-  .search-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  /* ── Search card ── */
+  .search-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 22px 22px 18px;
+    margin-bottom: 16px;
+  }
+  .search-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 0; }
   .field { flex: 1; min-width: 200px; }
   .field.short { flex: 0 0 150px; min-width: 110px; }
   .field.xshort { flex: 0 0 120px; min-width: 100px; }
-  .field label { display: block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted2); margin-bottom: 7px; }
-  input[type=text], input[type=number], input[type=password], select, textarea { width: 100%; background: #0d1018; border: 1px solid var(--border2); border-radius: 10px; padding: 11px 14px; color: var(--text); font-size: 14px; outline: none; transition: border .15s, box-shadow .15s; -webkit-appearance: none; appearance: none; font-family: inherit; }
+  .field label {
+    display: block; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .5px;
+    color: var(--muted2); margin-bottom: 7px;
+  }
+  input[type=text], input[type=number], select {
+    width: 100%; background: #0d1018;
+    border: 1px solid var(--border2); border-radius: 10px;
+    padding: 11px 14px; color: var(--text); font-size: 14px;
+    outline: none; transition: border .15s, box-shadow .15s;
+    -webkit-appearance: none; appearance: none;
+  }
   select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239aa4b2' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px; }
-  input:focus, select:focus, textarea:focus { border-color: var(--acc2); box-shadow: var(--ring); }
-  input::placeholder, textarea::placeholder { color: #3d4655; }
+  input:focus, select:focus { border-color: var(--acc2); box-shadow: var(--ring); }
+  input::placeholder { color: #3d4655; }
 
   /* ── Filter bar ── */
-  .filter-bar { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px 18px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-  .filter-group { display: flex; flex-direction: column; gap: 6px; }
-  .filter-group-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-  .filter-divider { width: 1px; height: 32px; background: var(--border2); flex-shrink: 0; }
+  .filter-bar {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 16px 20px;
+    margin-bottom: 16px;
+    display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+  }
+  .filter-group {
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .filter-group-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .5px; color: var(--muted);
+  }
+  .filter-group-row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
-  /* ── Pills ── */
-  .toggle-pill { display: inline-flex; border-radius: 999px; background: #0d1018; border: 1px solid var(--border2); overflow: hidden; }
-  .toggle-pill button { padding: 7px 12px; font-size: 12px; font-weight: 600; background: transparent; border: none; color: var(--muted2); cursor: pointer; transition: all .13s; white-space: nowrap; }
-  .toggle-pill button.active { background: rgba(45,212,191,.18); color: var(--acc2); }
-  .star-filter { display: inline-flex; border-radius: 999px; background: #0d1018; border: 1px solid var(--border2); overflow: hidden; }
-  .star-filter button { padding: 7px 10px; font-size: 12px; font-weight: 600; background: transparent; border: none; color: var(--muted2); cursor: pointer; transition: all .13s; }
-  .star-filter button.active { background: rgba(245,158,11,.15); color: var(--warn); }
+  /* ── Toggle pill ── */
+  .toggle-pill {
+    display: inline-flex; border-radius: 999px;
+    background: #0d1018; border: 1px solid var(--border2);
+    overflow: hidden;
+  }
+  .toggle-pill button {
+    padding: 7px 14px; font-size: 12px; font-weight: 600;
+    background: transparent; border: none; color: var(--muted2);
+    cursor: pointer; transition: all .13s; white-space: nowrap;
+  }
+  .toggle-pill button.active {
+    background: rgba(45,212,191,.18);
+    color: var(--acc2);
+  }
+  .toggle-pill button:first-child { border-radius: 999px 0 0 999px; }
+  .toggle-pill button:last-child { border-radius: 0 999px 999px 0; }
+
+  /* Rating filter stars */
+  .star-filter {
+    display: inline-flex; border-radius: 999px;
+    background: #0d1018; border: 1px solid var(--border2);
+    overflow: hidden;
+  }
+  .star-filter button {
+    padding: 7px 10px; font-size: 12px; font-weight: 600;
+    background: transparent; border: none; color: var(--muted2);
+    cursor: pointer; transition: all .13s; white-space: nowrap;
+  }
+  .star-filter button.active {
+    background: rgba(245,158,11,.15);
+    color: var(--warn);
+  }
+
+  /* ── Active filter indicator ── */
+  .filter-active-dot {
+    display: inline-block; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--acc2); margin-left: 6px;
+    vertical-align: middle;
+  }
 
   /* ── Buttons ── */
-  .btn { cursor: pointer; border-radius: 999px; font-weight: 700; font-size: 14px; padding: 11px 20px; display: inline-flex; align-items: center; gap: 8px; transition: opacity .12s, transform .06s; border: 1px solid transparent; white-space: nowrap; font-family: inherit; }
+  .btn {
+    cursor: pointer; border-radius: 999px; font-weight: 700;
+    font-size: 14px; padding: 11px 20px; display: inline-flex;
+    align-items: center; gap: 8px; transition: opacity .12s, transform .06s;
+    border: 1px solid transparent; white-space: nowrap;
+  }
   .btn:active { transform: translateY(1px); }
   .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-  .btn-primary { background: linear-gradient(90deg,rgba(82,189,133,.9),rgba(45,212,191,.88)); color: #0b1810; border-color: transparent; box-shadow: 0 6px 20px rgba(45,212,191,.2); }
+  .btn-primary {
+    background: linear-gradient(90deg,rgba(82,189,133,.9),rgba(45,212,191,.88));
+    color: #0b1810; border-color: transparent;
+    box-shadow: 0 6px 20px rgba(45,212,191,.2);
+  }
   .btn-primary:hover { opacity: .92; }
   .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
-  .btn-ghost { background: transparent; border: 1px solid var(--border2); color: var(--muted2); }
-  .btn-ghost:hover { background: rgba(255,255,255,.04); color: var(--text); }
-  .btn-danger { background: transparent; border: 1px solid rgba(239,68,68,.4); color: #fca5a5; }
+  .btn-ghost {
+    background: transparent; border: 1px solid var(--border2); color: var(--muted2);
+  }
+  .btn-ghost:hover { border-color: var(--border2); background: rgba(255,255,255,.04); color: var(--text); }
+  .btn-danger {
+    background: transparent; border: 1px solid rgba(239,68,68,.4); color: #fca5a5;
+  }
   .btn-danger:hover { background: rgba(239,68,68,.07); }
-  .btn-sm { padding: 7px 13px; font-size: 12px; }
+  .btn-sm { padding: 8px 14px; font-size: 12px; }
   .btn-sm svg { width: 13px; height: 13px; }
-  .btn-xs { padding: 4px 10px; font-size: 11px; border-radius: 999px; }
-  .btn-xs svg { width: 11px; height: 11px; }
 
   /* ── Status bar ── */
-  .status-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border-radius: 12px; margin-bottom: 16px; font-size: 13px; min-height: 46px; }
+  .status-bar {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 12px 16px; border-radius: 12px; margin-bottom: 16px;
+    font-size: 13px; min-height: 46px;
+  }
   .status-bar.idle { background: rgba(255,255,255,.03); border: 1px solid var(--border); color: var(--muted2); }
   .status-bar.loading { background: rgba(45,212,191,.06); border: 1px solid rgba(45,212,191,.2); color: var(--acc2); }
   .status-bar.success { background: rgba(82,189,133,.07); border: 1px solid rgba(82,189,133,.25); color: var(--acc); }
   .status-bar.error { background: rgba(239,68,68,.07); border: 1px solid rgba(239,68,68,.25); color: #fca5a5; }
-  .spinner { width: 16px; height: 16px; border: 2px solid rgba(45,212,191,.25); border-top-color: var(--acc2); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(45,212,191,.25);
+    border-top-color: var(--acc2); border-radius: 50%;
+    animation: spin .7s linear infinite; flex-shrink: 0;
+  }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* ── Actions bar ── */
-  .actions-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-  .count-pill { font-size: 13px; color: var(--muted2); padding: 6px 14px; background: var(--card); border: 1px solid var(--border); border-radius: 999px; margin-left: auto; }
+  .actions-bar {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .count-pill {
+    font-size: 13px; color: var(--muted2); padding: 6px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 999px; margin-left: auto;
+  }
   .count-pill strong { color: var(--text); }
 
-  /* ── Dropdown ── */
+  /* ── Dropdown export ── */
   .dropdown { position: relative; display: inline-flex; }
-  .dropdown-menu { position: absolute; top: calc(100% + 6px); left: 0; background: #131825; border: 1px solid var(--border2); border-radius: 12px; padding: 6px; min-width: 175px; box-shadow: 0 16px 40px rgba(0,0,0,.5); display: none; z-index: 50; flex-direction: column; gap: 2px; }
+  .dropdown-menu {
+    position: absolute; top: calc(100% + 6px); left: 0;
+    background: #131825; border: 1px solid var(--border2);
+    border-radius: 12px; padding: 6px; min-width: 170px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.5);
+    display: none; z-index: 50; flex-direction: column; gap: 2px;
+  }
   .dropdown-menu.open { display: flex; }
-  .dropdown-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; font-size: 13px; color: var(--muted2); cursor: pointer; background: transparent; border: none; width: 100%; text-align: left; transition: all .1s; font-family: inherit; }
+  .dropdown-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; font-size: 13px;
+    color: var(--muted2); cursor: pointer; background: transparent;
+    border: none; width: 100%; text-align: left; transition: all .1s;
+  }
   .dropdown-item:hover { background: rgba(255,255,255,.06); color: var(--text); }
   .dropdown-item svg { width: 14px; height: 14px; flex-shrink: 0; }
 
   /* ── Table ── */
-  .table-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .table-wrap {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
   .table-scroll { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; min-width: 760px;
+  }
   thead tr { border-bottom: 1px solid var(--border); }
-  thead th { padding: 12px 12px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); white-space: nowrap; cursor: pointer; user-select: none; }
+  thead th {
+    padding: 12px 14px; text-align: left; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .5px; color: var(--muted);
+    white-space: nowrap; cursor: pointer; user-select: none;
+  }
   thead th:hover { color: var(--text); }
-  thead th .sort-icon { opacity: .4; margin-left: 4px; }
+  thead th .sort-icon { display: inline; opacity: .4; margin-left: 4px; }
   thead th.sorted .sort-icon { opacity: 1; color: var(--acc2); }
   tbody tr { border-bottom: 1px solid rgba(255,255,255,.04); transition: background .1s; }
   tbody tr:last-child { border-bottom: none; }
-  tbody tr:hover { background: rgba(255,255,255,.025); }
-  tbody tr.status-contacted { border-left: 3px solid rgba(245,158,11,.5); }
-  tbody tr.status-interested { border-left: 3px solid rgba(82,189,133,.5); }
-  tbody tr.status-discarded { border-left: 3px solid rgba(239,68,68,.3); opacity: .6; }
-  td { padding: 10px 12px; color: var(--text2); vertical-align: middle; }
-  td.name-cell { font-weight: 600; color: var(--text); max-width: 200px; }
-  td.name-cell .lead-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  td.name-cell .lead-links { display: flex; gap: 8px; margin-top: 3px; flex-wrap: wrap; }
-  td.name-cell a { color: var(--acc2); text-decoration: none; font-size: 11px; font-weight: 500; }
-  td.name-cell a:hover { text-decoration: underline; }
-  .badge-type { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(45,212,191,.12); color: var(--acc2); border: 1px solid rgba(45,212,191,.2); white-space: nowrap; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
-  .badge-nosite { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(239,68,68,.1); color: #fca5a5; border: 1px solid rgba(239,68,68,.2); }
-  td.phone-cell { white-space: nowrap; }
-  td.phone-cell .phone-val { font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--acc); }
-  .copy-btn { display: inline-flex; align-items: center; margin-left: 5px; background: transparent; border: none; cursor: pointer; color: var(--muted2); padding: 2px; border-radius: 4px; transition: color .1s; }
-  .copy-btn:hover { color: var(--acc2); }
-  .copy-btn svg { width: 12px; height: 12px; }
-  td.addr-cell { max-width: 200px; }
-  td.addr-cell span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; }
-  .stars { color: var(--warn); }
-  .rev-count { color: var(--muted2); font-size: 11px; }
-
-  /* ── Lead photo ── */
-  .lead-photo { width: 36px; height: 36px; border-radius: 8px; object-fit: cover; background: var(--card2); border: 1px solid var(--border); flex-shrink: 0; }
-  .lead-photo-placeholder { width: 36px; height: 36px; border-radius: 8px; background: var(--card2); border: 1px solid var(--border); display: grid; place-items: center; flex-shrink: 0; color: var(--muted); font-size: 14px; }
-
-  /* ── Status select ── */
-  .status-sel { font-size: 11px; padding: 4px 8px; border-radius: 999px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; font-weight: 600; font-family: inherit; outline: none; -webkit-appearance: none; appearance: none; }
-  .status-sel.s-new { color: var(--acc2); border-color: rgba(45,212,191,.3); background: rgba(45,212,191,.08); }
-  .status-sel.s-contacted { color: var(--warn); border-color: rgba(245,158,11,.3); background: rgba(245,158,11,.08); }
-  .status-sel.s-interested { color: var(--acc); border-color: rgba(82,189,133,.3); background: rgba(82,189,133,.08); }
-  .status-sel.s-discarded { color: #fca5a5; border-color: rgba(239,68,68,.3); background: rgba(239,68,68,.08); }
-
-  /* ── Notes ── */
-  .note-btn { background: transparent; border: none; cursor: pointer; color: var(--muted2); padding: 3px; border-radius: 5px; transition: color .1s; display: inline-flex; }
-  .note-btn:hover { color: var(--acc2); }
-  .note-btn svg { width: 14px; height: 14px; }
-  .note-btn.has-note { color: var(--warn); }
-
-  /* ── WA button ── */
-  .wa-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; border: 1px solid rgba(37,211,102,.3); background: rgba(37,211,102,.08); color: #4ade80; font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .13s; }
-  .wa-btn:hover { background: rgba(37,211,102,.15); }
-  .wa-btn svg { width: 11px; height: 11px; }
-
-  /* ── No data ── */
-  .no-data { padding: 52px 20px; text-align: center; color: var(--muted2); font-size: 14px; line-height: 2; }
+  tbody tr:hover { background: rgba(255,255,255,.03); }
+  td { padding: 11px 14px; color: var(--text2); vertical-align: middle; }
+  td.name { font-weight: 600; color: var(--text); max-width: 220px; }
+  td.name span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  td.rating { white-space: nowrap; }
+  .stars { color: var(--warn); margin-right: 4px; }
+  .rev-count { color: var(--muted2); font-size: 12px; }
+  td a { color: var(--acc2); text-decoration: none; font-size: 12px; }
+  td a:hover { text-decoration: underline; }
+  .badge-type {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 999px; background: rgba(45,212,191,.12);
+    color: var(--acc2); border: 1px solid rgba(45,212,191,.2);
+    white-space: nowrap; max-width: 180px; overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  td.phone { white-space: nowrap; font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--acc); }
+  td.phone .copy-btn {
+    display: inline-flex; align-items: center; margin-left: 6px;
+    background: transparent; border: none; cursor: pointer;
+    color: var(--muted2); padding: 2px; border-radius: 4px;
+    transition: color .1s;
+  }
+  td.phone .copy-btn:hover { color: var(--acc2); }
+  td.phone .copy-btn svg { width: 12px; height: 12px; }
+  td.addr { max-width: 240px; }
+  td.addr span { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12px; }
+  .no-data {
+    padding: 52px 20px; text-align: center; color: var(--muted2);
+    font-size: 14px; line-height: 2;
+  }
   .no-data svg { margin: 0 auto 12px; display: block; opacity: .3; width: 36px; height: 36px; stroke: var(--muted2); }
 
   /* ── Pagination ── */
-  .pagination { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 16px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-  .page-btn { width: 34px; height: 34px; border-radius: 8px; cursor: pointer; background: transparent; border: 1px solid var(--border2); color: var(--muted2); font-size: 13px; font-weight: 600; display: grid; place-items: center; transition: all .12s; }
+  .pagination {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 16px; border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .page-btn {
+    width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--muted2); font-size: 13px; font-weight: 600;
+    display: grid; place-items: center; transition: all .12s;
+  }
   .page-btn:hover { background: rgba(255,255,255,.06); color: var(--text); }
   .page-btn.active { background: rgba(82,189,133,.18); border-color: rgba(82,189,133,.4); color: var(--acc); }
   .page-btn:disabled { opacity: .3; cursor: not-allowed; }
-
-  /* ── History ── */
-  .history-list { display: flex; flex-direction: column; gap: 8px; }
-  .history-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color .13s; }
-  .history-item:hover { border-color: var(--border2); }
-  .history-info { flex: 1; }
-  .history-query { font-weight: 600; font-size: 14px; color: var(--text); }
-  .history-meta { font-size: 12px; color: var(--muted2); margin-top: 2px; }
-  .history-count { font-size: 13px; font-weight: 700; color: var(--acc2); white-space: nowrap; }
-  .history-empty { text-align: center; color: var(--muted2); padding: 40px 20px; font-size: 14px; }
-
-  /* ── Map tab ── */
-  #mapContainer { width: 100%; height: 540px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); background: var(--card); display: flex; align-items: center; justify-content: center; color: var(--muted2); flex-direction: column; gap: 12px; }
-  #mapContainer svg { opacity: .3; width: 40px; height: 40px; }
-
-  /* ── Note modal ── */
-  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; }
-  .modal-backdrop.open { display: flex; }
-  .modal { background: #131825; border: 1px solid var(--border2); border-radius: 18px; padding: 24px 22px 20px; width: min(480px, 94vw); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
-  .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-  .modal textarea { resize: vertical; min-height: 100px; }
-  .modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
-  .modal .hint { font-size: 12px; color: var(--muted2); margin-top: 8px; }
-
-  /* ── Hours modal ── */
-  .hours-table { width: 100%; font-size: 13px; border-collapse: collapse; }
-  .hours-table td { padding: 6px 0; color: var(--text2); }
-  .hours-table td:first-child { color: var(--muted2); width: 120px; font-weight: 500; text-transform: capitalize; }
-  .hours-open { color: var(--acc) !important; font-weight: 600; }
-
-  /* ── AI Chat ── */
-  .chat-fab { position: fixed; bottom: 28px; right: 28px; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, rgba(82,189,133,.9), rgba(45,212,191,.88)); border: none; cursor: pointer; display: grid; place-items: center; box-shadow: 0 8px 28px rgba(45,212,191,.35); z-index: 200; transition: transform .15s, box-shadow .15s; }
-  .chat-fab:hover { transform: scale(1.07); box-shadow: 0 12px 36px rgba(45,212,191,.45); }
-  .chat-fab svg { width: 24px; height: 24px; stroke: #0b1810; }
-  .chat-fab .chat-badge { position: absolute; top: -3px; right: -3px; width: 18px; height: 18px; border-radius: 50%; background: var(--warn); font-size: 10px; font-weight: 700; color: #000; display: none; place-items: center; border: 2px solid var(--bg); }
-  .chat-fab .chat-badge.show { display: grid; }
-
-  .chat-panel { position: fixed; bottom: 96px; right: 28px; width: min(420px, calc(100vw - 40px)); height: min(580px, calc(100vh - 140px)); background: #0f1420; border: 1px solid var(--border2); border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.6); z-index: 199; display: none; flex-direction: column; overflow: hidden; }
-  .chat-panel.open { display: flex; }
-  .chat-header { padding: 16px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-  .chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg,rgba(82,189,133,.5),rgba(45,212,191,.5)); display: grid; place-items: center; flex-shrink: 0; }
-  .chat-avatar svg { width: 17px; height: 17px; stroke: #e4eaf3; }
-  .chat-title { font-weight: 700; font-size: 14px; }
-  .chat-sub { font-size: 11px; color: var(--muted2); }
-  .chat-close { margin-left: auto; background: transparent; border: none; cursor: pointer; color: var(--muted2); padding: 4px; border-radius: 6px; display: grid; place-items: center; }
-  .chat-close:hover { color: var(--text); }
-  .chat-close svg { width: 16px; height: 16px; }
-  .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-  .chat-messages::-webkit-scrollbar { width: 4px; }
-  .chat-messages::-webkit-scrollbar-track { background: transparent; }
-  .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 2px; }
-  .msg { max-width: 85%; display: flex; flex-direction: column; gap: 4px; }
-  .msg.user { align-self: flex-end; align-items: flex-end; }
-  .msg.ai { align-self: flex-start; align-items: flex-start; }
-  .msg-bubble { padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.55; }
-  .msg.user .msg-bubble { background: linear-gradient(135deg,rgba(82,189,133,.25),rgba(45,212,191,.2)); color: var(--text); border-radius: 14px 14px 4px 14px; border: 1px solid rgba(45,212,191,.2); }
-  .msg.ai .msg-bubble { background: var(--card2); color: var(--text2); border-radius: 14px 14px 14px 4px; border: 1px solid var(--border); }
-  .msg-bubble ul { margin-left: 16px; margin-top: 4px; }
-  .msg-bubble li { margin-bottom: 2px; }
-  .msg-bubble strong { color: var(--text); }
-  .msg-time { font-size: 10px; color: var(--muted); }
-  .chat-suggestions { padding: 0 14px 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .chat-sug { font-size: 11px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; font-family: inherit; transition: all .12s; white-space: nowrap; }
-  .chat-sug:hover { background: rgba(45,212,191,.08); color: var(--acc2); border-color: rgba(45,212,191,.3); }
-  .chat-input-row { padding: 12px 14px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: flex-end; }
-  .chat-input { flex: 1; background: #0d1018; border: 1px solid var(--border2); border-radius: 12px; padding: 10px 14px; color: var(--text); font-size: 13px; outline: none; resize: none; font-family: inherit; max-height: 100px; transition: border .15s; }
-  .chat-input:focus { border-color: var(--acc2); }
-  .chat-send { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,rgba(82,189,133,.85),rgba(45,212,191,.82)); border: none; cursor: pointer; display: grid; place-items: center; flex-shrink: 0; transition: opacity .13s; }
-  .chat-send:hover { opacity: .88; }
-  .chat-send:disabled { opacity: .35; cursor: not-allowed; }
-  .chat-send svg { width: 15px; height: 15px; stroke: #0b1810; }
-  .chat-typing { display: flex; gap: 4px; align-items: center; padding: 10px 14px; }
-  .chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--muted2); animation: bounce .9s infinite; }
-  .chat-typing span:nth-child(2) { animation-delay: .15s; }
-  .chat-typing span:nth-child(3) { animation-delay: .3s; }
-  @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+  .page-info { font-size: 12px; color: var(--muted2); padding: 0 8px; }
 
   /* ── Webhook modal ── */
-  #webhookModal .modal { max-width: 500px; }
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(0,0,0,.6);
+    backdrop-filter: blur(4px); display: none;
+    align-items: center; justify-content: center; z-index: 100;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: #131825; border: 1px solid var(--border2);
+    border-radius: 18px; padding: 24px 22px 20px;
+    width: min(520px, 94vw); box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  }
+  .modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 16px; }
+  .modal input { background: #0d1018; }
+  .modal .hint { font-size: 12px; color: var(--muted2); margin-top: 8px; line-height: 1.6; }
+  .modal .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
 
   /* ── Toast ── */
-  .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(12px); background: #111825; border: 1px solid var(--border2); border-radius: 12px; padding: 12px 20px; font-size: 13px; color: var(--text2); opacity: 0; transition: opacity .15s, transform .15s; z-index: 300; box-shadow: 0 12px 40px rgba(0,0,0,.5); pointer-events: none; white-space: nowrap; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast {
+    position: fixed; bottom: 22px; right: 22px;
+    background: #111825; border: 1px solid var(--border2);
+    border-radius: 12px; padding: 12px 16px;
+    font-size: 13px; color: var(--text2);
+    transform: translateY(12px); opacity: 0;
+    transition: opacity .15s, transform .15s;
+    z-index: 200; box-shadow: 0 12px 40px rgba(0,0,0,.5);
+    max-width: 320px; pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
   .toast.ok { border-color: rgba(82,189,133,.4); color: #a7f3d0; }
   .toast.err { border-color: rgba(239,68,68,.4); color: #fca5a5; }
 
-  @media (max-width: 600px) {
-    .page { padding: 16px 12px 80px; }
+  /* ── Divider ── */
+  .filter-divider {
+    width: 1px; height: 32px; background: var(--border2);
+    flex-shrink: 0;
+  }
+
+  /* ── No website badge ── */
+  .badge-nosite {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 999px; background: rgba(239,68,68,.1);
+    color: #fca5a5; border: 1px solid rgba(239,68,68,.2);
+  }
+
+  @media (max-width: 540px) {
+    .brand-name { font-size: 15px; }
+    .page { padding: 18px 12px 40px; }
+    .filter-bar { gap: 12px; }
     .filter-divider { display: none; }
-    .chat-panel { right: 12px; bottom: 88px; width: calc(100vw - 24px); }
-    .chat-fab { right: 16px; bottom: 20px; }
   }
 </style>
 </head>
@@ -289,89 +359,109 @@
   <div class="topbar">
     <div class="brand">
       <div class="brand-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 13a8 8 0 0 1 8-8h0a8 8 0 0 1 8 8v5"/><path d="M8 13v5m8-5v5"/><path d="M3 18h6m6 0h6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 13a8 8 0 0 1 8-8h0a8 8 0 0 1 8 8v5"/>
+          <path d="M8 13v5m8-5v5"/>
+          <path d="M3 18h6m6 0h6"/>
+        </svg>
       </div>
       <div>
         <div class="brand-name">Extrator Google Maps</div>
-        <div class="brand-sub">Powered by SerpApi + Claude AI</div>
+        <div class="brand-sub">Powered by SerpApi</div>
       </div>
     </div>
-    <div class="topbar-actions">
-      <button class="btn btn-ghost btn-sm" onclick="openWebhookModal()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+  </div>
+
+  <!-- API Key -->
+  <div class="api-bar" id="apiBar">
+    <label for="apiKeyInput">Chave SerpApi</label>
+    <input type="password" id="apiKeyInput" placeholder="Cole sua API key aqui..." autocomplete="off" />
+    <button class="btn btn-ghost" onclick="saveApiKey()" style="padding:10px 16px;">Salvar chave</button>
+    <div class="api-saved" id="apiSaved" style="display:none;">Chave salva</div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-card">
+    <div class="search-row">
+      <div class="field">
+        <label for="queryInput">Segmento / termo</label>
+        <input type="text" id="queryInput" placeholder="ex.: dentista, advogado trabalhista..." autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="locationInput">Localização</label>
+        <input type="text" id="locationInput" placeholder="ex.: São Paulo SP, Curitiba..." autocomplete="off" />
+      </div>
+      <div class="field short">
+        <label for="langInput">Idioma</label>
+        <select id="langInput">
+          <option value="pt">Português</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+        </select>
+      </div>
+      <div class="field xshort">
+        <label for="limitInput">Resultados</label>
+        <select id="limitInput">
+          <option value="20">20</option>
+          <option value="40" selected>40</option>
+          <option value="60">60</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" id="searchBtn" onclick="startSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        Buscar
+      </button>
+      <button class="btn btn-ghost" onclick="openWebhookModal()" title="Configurar webhook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
         Webhook
       </button>
     </div>
   </div>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('search')">🔍 Buscar</button>
-    <button class="tab-btn" onclick="switchTab('history')">🕓 Histórico</button>
-    <button class="tab-btn" onclick="switchTab('map')">🗺️ Mapa</button>
-    <button class="tab-btn" onclick="switchTab('settings')">⚙️ Config</button>
-  </div>
+  <!-- Filter bar -->
+  <div class="filter-bar" id="filterBar">
 
-  <!-- SEARCH TAB -->
-  <div class="tab-panel active" id="tab-search">
-
-    <!-- Search card -->
-    <div class="search-card">
-      <div class="search-row">
-        <div class="field">
-          <label>Segmento / termo</label>
-          <input type="text" id="queryInput" placeholder="ex.: dentista, advogado trabalhista..." autocomplete="off" />
-        </div>
-        <div class="field">
-          <label>Localização</label>
-          <input type="text" id="locationInput" placeholder="ex.: São Paulo SP, Curitiba..." autocomplete="off" />
-        </div>
-        <div class="field short">
-          <label>Idioma</label>
-          <select id="langInput">
-            <option value="pt">Português</option>
-            <option value="en">English</option>
-            <option value="es">Español</option>
-          </select>
-        </div>
-        <div class="field xshort">
-          <label>Resultados</label>
-          <select id="limitInput">
-            <option value="20">20</option>
-            <option value="40" selected>40</option>
-            <option value="60">60</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-        <button class="btn btn-primary" id="searchBtn" onclick="startSearch()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Buscar
-        </button>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filter-bar">
-      <div class="filter-group">
-        <div class="filter-group-label">Site</div>
+    <!-- Site filter -->
+    <div class="filter-group">
+      <div class="filter-group-label">Site</div>
+      <div class="filter-group-row">
         <div class="toggle-pill">
           <button id="siteAll" class="active" onclick="setSiteFilter('all')">Todos</button>
           <button id="siteYes" onclick="setSiteFilter('yes')">Com site</button>
           <button id="siteNo" onclick="setSiteFilter('no')">Sem site</button>
         </div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <div class="filter-group-label">Telefone</div>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <!-- Phone filter -->
+    <div class="filter-group">
+      <div class="filter-group-label">Telefone</div>
+      <div class="filter-group-row">
         <div class="toggle-pill">
           <button id="phoneAll" class="active" onclick="setPhoneFilter('all')">Todos</button>
           <button id="phoneYes" onclick="setPhoneFilter('yes')">Com fone</button>
           <button id="phoneNo" onclick="setPhoneFilter('no')">Sem fone</button>
         </div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <div class="filter-group-label">Avaliação mínima</div>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <!-- Rating filter -->
+    <div class="filter-group">
+      <div class="filter-group-label">Avaliação mínima</div>
+      <div class="filter-group-row">
         <div class="star-filter">
           <button id="ratingAll" class="active" onclick="setRatingFilter(0)">Todas</button>
           <button id="rating3" onclick="setRatingFilter(3)">★ 3+</button>
@@ -379,406 +469,247 @@
           <button id="rating45" onclick="setRatingFilter(4.5)">★ 4.5+</button>
         </div>
       </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <div class="filter-group-label">Status</div>
-        <div class="toggle-pill">
-          <button id="statusAll" class="active" onclick="setStatusFilter('all')">Todos</button>
-          <button id="statusNew" onclick="setStatusFilter('new')">Novos</button>
-          <button id="statusContacted" onclick="setStatusFilter('contacted')">Contatados</button>
-          <button id="statusInterested" onclick="setStatusFilter('interested')">Interessados</button>
-        </div>
-      </div>
-      <div class="filter-divider"></div>
-      <div class="filter-group">
-        <div class="filter-group-label">Ordenar</div>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <!-- Sort -->
+    <div class="filter-group">
+      <div class="filter-group-label">Ordenar por</div>
+      <div class="filter-group-row">
         <div class="toggle-pill">
           <button id="sortDefault" class="active" onclick="setSort('default')">Padrão</button>
           <button id="sortRating" onclick="setSort('rating')">Avaliação</button>
           <button id="sortReviews" onclick="setSort('reviews')">Reviews</button>
         </div>
       </div>
-      <div style="margin-left:auto;font-size:12px;color:var(--muted2);" id="filterCount"></div>
     </div>
 
-    <!-- Status bar -->
-    <div class="status-bar idle" id="statusBar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <span id="statusText">Informe um termo e clique em Buscar.</span>
-    </div>
+    <div style="margin-left:auto; font-size:12px; color:var(--muted2);" id="filterCount"></div>
+  </div>
 
-    <!-- Actions -->
-    <div class="actions-bar" id="actionsBar" style="display:none;">
-      <div class="dropdown" id="exportDropdown">
-        <button class="btn btn-ghost btn-sm" onclick="toggleExportMenu(event)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Exportar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M6 9l6 6 6-6"/></svg>
+  <!-- Status -->
+  <div class="status-bar idle" id="statusBar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16" aria-hidden="true">
+      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <span id="statusText">Informe um termo e clique em Buscar.</span>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-bar" id="actionsBar" style="display:none;">
+
+    <!-- Export dropdown -->
+    <div class="dropdown" id="exportDropdown">
+      <button class="btn btn-ghost" onclick="toggleExportMenu(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Exportar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="dropdown-menu" id="exportMenu">
+        <button class="dropdown-item" onclick="exportCSV(); closeExportMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Exportar CSV
         </button>
-        <div class="dropdown-menu" id="exportMenu">
-          <button class="dropdown-item" onclick="exportCSV();closeExportMenu()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Exportar CSV
-          </button>
-          <button class="dropdown-item" onclick="exportJSON();closeExportMenu()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Exportar JSON
-          </button>
-          <button class="dropdown-item" onclick="copyPhones();closeExportMenu()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Copiar telefones
-          </button>
-          <button class="dropdown-item" onclick="generateProspectMsg();closeExportMenu()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Gerar msg prospecção (IA)
-          </button>
-        </div>
+        <button class="dropdown-item" onclick="exportJSON(); closeExportMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Exportar JSON
+        </button>
+        <button class="dropdown-item" onclick="copyPhones(); closeExportMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.29 6.29l1.62-1.62a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Copiar telefones
+        </button>
+        <button class="dropdown-item" onclick="copyEmails(); closeExportMenu()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Copiar e-mails
+        </button>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="sendToWebhook()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        Enviar Webhook
-      </button>
-      <button class="btn btn-ghost btn-sm" onclick="showOnMap()">
-        🗺️ Ver no Mapa
-      </button>
-      <button class="btn btn-danger btn-sm" onclick="clearLeads()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-        Limpar
-      </button>
-      <div class="count-pill"><strong id="countNum">0</strong> <span id="countLabel">leads</span></div>
     </div>
 
-    <!-- Table -->
-    <div class="table-wrap" id="tableWrap">
-      <div class="table-scroll">
-        <table id="leadsTable" style="display:none;">
-          <thead>
-            <tr>
-              <th style="width:44px;">#</th>
-              <th style="width:40px;"></th>
-              <th onclick="toggleSort('name')">Nome <span class="sort-icon">↕</span></th>
-              <th>Tipo</th>
-              <th onclick="toggleSort('rating')">Avaliação <span class="sort-icon">↕</span></th>
-              <th onclick="toggleSort('reviews')">Reviews <span class="sort-icon">↕</span></th>
-              <th>Telefone</th>
-              <th>Site</th>
-              <th>Endereço</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-      <div class="no-data" id="noData">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Nenhum lead ainda.<br>Faça uma busca para começar.
-      </div>
-      <div class="pagination" id="pagination" style="display:none;"></div>
-    </div>
+    <button class="btn btn-ghost" onclick="sendToWebhook()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+      </svg>
+      Enviar ao Webhook
+    </button>
+    <button class="btn btn-danger" onclick="clearLeads()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <polyline points="3 6 5 6 21 6"/>
+        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+        <path d="M10 11v6m4-6v6"/>
+      </svg>
+      Limpar
+    </button>
+    <div class="count-pill"><strong id="countNum">0</strong> <span id="countLabel">leads encontrados</span></div>
   </div>
 
-  <!-- HISTORY TAB -->
-  <div class="tab-panel" id="tab-history">
-    <div style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
-      <div style="font-size:15px;font-weight:700;">Histórico de buscas</div>
-      <button class="btn btn-danger btn-sm" onclick="clearHistory()">Limpar histórico</button>
+  <!-- Table -->
+  <div class="table-wrap" id="tableWrap">
+    <div class="table-scroll">
+      <table id="leadsTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th onclick="toggleSort('name')" title="Ordenar por nome">Nome <span class="sort-icon">↕</span></th>
+            <th>Tipo</th>
+            <th onclick="toggleSort('rating')" title="Ordenar por avaliação">Avaliação <span class="sort-icon">↕</span></th>
+            <th onclick="toggleSort('reviews')" title="Ordenar por reviews">Reviews <span class="sort-icon">↕</span></th>
+            <th>Telefone</th>
+            <th>Site</th>
+            <th>Endereço</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
     </div>
-    <div class="history-list" id="historyList">
-      <div class="history-empty">Nenhuma busca realizada ainda.</div>
+    <div class="no-data" id="noData">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+      </svg>
+      Nenhum lead ainda.<br>Faça uma busca para começar.
     </div>
+    <div class="pagination" id="pagination" style="display:none;"></div>
   </div>
 
-  <!-- MAP TAB -->
-  <div class="tab-panel" id="tab-map">
-    <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;">
-      <div style="font-size:15px;font-weight:700;">Mapa dos leads</div>
-      <span style="font-size:12px;color:var(--muted2);" id="mapCount"></span>
-    </div>
-    <div id="mapContainer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      <span style="font-size:14px;">Faça uma busca para ver os leads no mapa</span>
-    </div>
-  </div>
-
-  <!-- SETTINGS TAB -->
-  <div class="tab-panel" id="tab-settings">
-    <div style="display:flex;flex-direction:column;gap:16px;max-width:600px;">
-      <div style="font-size:15px;font-weight:700;margin-bottom:4px;">Configurações</div>
-
-      <div class="api-bar" style="flex-direction:column;align-items:stretch;gap:12px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);">🔑 SerpApi</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <label style="min-width:80px;">API Key</label>
-          <input type="password" id="apiKeyInput" placeholder="Cole sua chave SerpApi..." style="flex:1;min-width:200px;" autocomplete="off" />
-          <button class="btn btn-ghost btn-sm" onclick="saveApiKey()">Salvar</button>
-          <div class="api-saved" id="apiSaved" style="display:none;">Salva</div>
-        </div>
-      </div>
-
-      <div class="api-bar" style="flex-direction:column;align-items:stretch;gap:12px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);">🤖 Claude AI (chat inteligente)</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <label style="min-width:80px;">API Key</label>
-          <input type="password" id="claudeKeyInput" placeholder="sk-ant-..." style="flex:1;min-width:200px;" autocomplete="off" />
-          <button class="btn btn-ghost btn-sm" onclick="saveClaudeKey()">Salvar</button>
-          <div class="api-saved" id="claudeSaved" style="display:none;">Salva</div>
-        </div>
-        <div style="font-size:12px;color:var(--muted2);">Usado no chat de IA para analisar leads, gerar mensagens e responder perguntas.</div>
-      </div>
-
-      <div class="api-bar" style="flex-direction:column;align-items:stretch;gap:12px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);">🔗 Webhook</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <label style="min-width:80px;">URL</label>
-          <input type="text" id="webhookInputSettings" placeholder="https://seu-dominio.com/webhook" style="flex:1;min-width:200px;" autocomplete="off" />
-          <button class="btn btn-ghost btn-sm" onclick="saveWebhookSettings()">Salvar</button>
-        </div>
-      </div>
-
-      <div class="api-bar" style="flex-direction:column;align-items:stretch;gap:12px;">
-        <div style="font-size:13px;font-weight:700;color:var(--text);">🌐 Worker URL (proxy CORS)</div>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
-          <label style="min-width:80px;">URL</label>
-          <input type="text" id="workerUrlInput" placeholder="https://extrator.iscodest.workers.dev" style="flex:1;min-width:200px;" autocomplete="off" />
-          <button class="btn btn-ghost btn-sm" onclick="saveWorkerUrl()">Salvar</button>
-        </div>
-        <div style="font-size:12px;color:var(--muted2);">URL do seu Cloudflare Worker. Deixe vazio para chamar SerpApi diretamente.</div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /page -->
-
-<!-- Note Modal -->
-<div class="modal-backdrop" id="noteModal">
-  <div class="modal">
-    <h3>📝 Anotação — <span id="noteLeadName" style="color:var(--acc2);font-weight:600;"></span></h3>
-    <textarea id="noteTextarea" placeholder="Digite sua anotação sobre este lead..."></textarea>
-    <div class="modal-actions">
-      <button class="btn btn-danger btn-sm" onclick="clearNote()">Apagar</button>
-      <button class="btn btn-ghost btn-sm" onclick="closeNoteModal()">Cancelar</button>
-      <button class="btn btn-primary btn-sm" onclick="saveNote()">Salvar</button>
-    </div>
-  </div>
 </div>
 
-<!-- Hours Modal -->
-<div class="modal-backdrop" id="hoursModal">
-  <div class="modal">
-    <h3>🕐 Horários — <span id="hoursLeadName" style="color:var(--acc2);"></span></h3>
-    <div id="hoursContent" style="margin-top:8px;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" onclick="closeHoursModal()">Fechar</button>
-    </div>
-  </div>
-</div>
-
-<!-- Webhook Modal -->
+<!-- Webhook modal -->
 <div class="modal-backdrop" id="webhookModal">
   <div class="modal">
     <h3>Configurar Webhook</h3>
     <label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--muted2);margin-bottom:7px;">URL do Webhook</label>
-    <input type="text" id="webhookInput" placeholder="https://seu-dominio.com/webhook" />
-    <p class="hint" style="margin-top:10px;">Leads serão enviados via POST (JSON) para esta URL.</p>
+    <input type="text" id="webhookInput" placeholder="https://seu-dominio.com/webhook" style="width:100%;margin-bottom:0;" />
+    <p class="hint">Ao clicar em "Enviar ao Webhook", todos os leads serão enviados via POST (JSON) para esta URL.</p>
     <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" onclick="closeWebhookModal()">Cancelar</button>
-      <button class="btn btn-primary btn-sm" onclick="saveWebhook()">Salvar</button>
+      <button class="btn btn-ghost" onclick="closeWebhookModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveWebhook()">Salvar</button>
     </div>
-  </div>
-</div>
-
-<!-- Prospecção Modal -->
-<div class="modal-backdrop" id="prospectModal">
-  <div class="modal" style="max-width:560px;">
-    <h3>💬 Mensagem de Prospecção</h3>
-    <div id="prospectContent" style="margin-top:8px;max-height:360px;overflow-y:auto;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('prospectModal').classList.remove('open')">Fechar</button>
-      <button class="btn btn-primary btn-sm" onclick="copyProspectMsg()">Copiar</button>
-    </div>
-  </div>
-</div>
-
-<!-- AI Chat FAB -->
-<button class="chat-fab" onclick="toggleChat()" title="Chat com IA">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  <div class="chat-badge" id="chatBadge"></div>
-</button>
-
-<!-- AI Chat Panel -->
-<div class="chat-panel" id="chatPanel">
-  <div class="chat-header">
-    <div class="chat-avatar">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-    </div>
-    <div>
-      <div class="chat-title">Assistente de Leads</div>
-      <div class="chat-sub" id="chatSub">Powered by Claude AI</div>
-    </div>
-    <button class="chat-close" onclick="toggleChat()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="msg ai">
-      <div class="msg-bubble">Olá! Sou seu assistente de leads. Posso analisar os resultados da sua busca, gerar mensagens de prospecção, filtrar por critérios específicos e muito mais.<br><br>Faça uma busca primeiro e depois me pergunte o que quiser! 🚀</div>
-    </div>
-  </div>
-  <div class="chat-suggestions" id="chatSuggestions">
-    <button class="chat-sug" onclick="sendSuggestion('Quais são os melhores leads para contatar agora?')">Melhores leads 🎯</button>
-    <button class="chat-sug" onclick="sendSuggestion('Quais leads não têm site e podem precisar de um?')">Sem site 🌐</button>
-    <button class="chat-sug" onclick="sendSuggestion('Me dê os telefones dos 5 leads com mais reviews')">Top 5 reviews 📊</button>
-    <button class="chat-sug" onclick="sendSuggestion('Gere uma mensagem de prospecção para o primeiro lead da lista')">Gerar mensagem ✍️</button>
-  </div>
-  <div class="chat-input-row">
-    <textarea class="chat-input" id="chatInput" placeholder="Pergunte sobre os leads..." rows="1"></textarea>
-    <button class="chat-send" id="chatSendBtn" onclick="sendChatMessage()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ── Storage ──
-const LS = { get: k => localStorage.getItem(k)||'', set: (k,v) => localStorage.setItem(k,v) };
+// ── Storage helpers ──
+const LS = {
+  get: k => localStorage.getItem(k) || '',
+  set: (k, v) => localStorage.setItem(k, v),
+  del: k => localStorage.removeItem(k),
+};
 
 // ── State ──
 let allLeads = [];
 let currentPage = 1;
 const PER_PAGE = 20;
-let filterSite = 'all', filterPhone = 'all', filterRating = 0, filterStatus = 'all';
-let sortMode = 'default', sortDir = -1;
-let noteLeadIdx = null;
-let chatHistory = [];
-let currentMapLeads = [];
+
+// Filters
+let filterSite = 'all';    // 'all' | 'yes' | 'no'
+let filterPhone = 'all';   // 'all' | 'yes' | 'no'
+let filterRating = 0;      // minimum rating
+let sortMode = 'default';  // 'default' | 'rating' | 'reviews' | 'name'
+let sortDir = 1;           // 1 = desc, -1 = asc
 
 // ── Init ──
 window.addEventListener('DOMContentLoaded', () => {
-  // Load saved keys
-  const serpKey = LS.get('serpapi_key');
-  if (serpKey) { document.getElementById('apiKeyInput').value = serpKey; document.getElementById('apiSaved').style.display='flex'; }
-  const claudeKey = LS.get('claude_key');
-  if (claudeKey) { document.getElementById('claudeKeyInput').value = claudeKey; document.getElementById('claudeSaved').style.display='flex'; }
-  const wh = LS.get('webhook_url');
-  if (wh) { document.getElementById('webhookInput').value = wh; document.getElementById('webhookInputSettings').value = wh; }
-  const workerUrl = LS.get('worker_url') || 'https://extrator.iscodest.workers.dev';
-  document.getElementById('workerUrlInput').value = workerUrl;
+  const savedKey = LS.get('serpapi_key');
+  if (savedKey) {
+    document.getElementById('apiKeyInput').value = savedKey;
+    document.getElementById('apiSaved').style.display = 'flex';
+  }
+  const savedWh = LS.get('webhook_url');
+  if (savedWh) document.getElementById('webhookInput').value = savedWh;
 
-  // Enter key search
-  ['queryInput','locationInput'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') startSearch(); });
+  document.getElementById('queryInput').addEventListener('keydown', e => { if (e.key === 'Enter') startSearch(); });
+  document.getElementById('locationInput').addEventListener('keydown', e => { if (e.key === 'Enter') startSearch(); });
+
+  document.getElementById('webhookModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('webhookModal')) closeWebhookModal();
   });
 
-  // Chat input auto-resize + Enter
-  const ci = document.getElementById('chatInput');
-  ci.addEventListener('input', () => { ci.style.height='auto'; ci.style.height=ci.scrollHeight+'px'; });
-  ci.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChatMessage(); } });
-
-  // Close dropdowns on outside click
+  // Close export dropdown on outside click
   document.addEventListener('click', e => {
-    if(!document.getElementById('exportDropdown').contains(e.target)) closeExportMenu();
+    const dd = document.getElementById('exportDropdown');
+    if (!dd.contains(e.target)) closeExportMenu();
   });
-
-  // Close modals on backdrop click
-  ['noteModal','hoursModal','webhookModal','prospectModal'].forEach(id => {
-    document.getElementById(id).addEventListener('click', e => { if(e.target.id===id) document.getElementById(id).classList.remove('open'); });
-  });
-
-  renderHistory();
 });
 
-// ── Tabs ──
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const tabs = ['search','history','map','settings'];
-  const idx = tabs.indexOf(tab);
-  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
-  document.getElementById('tab-'+tab).classList.add('active');
-  if(tab==='history') renderHistory();
-  if(tab==='map') renderMap();
-}
-
-// ── Settings ──
+// ── API Key ──
 function saveApiKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  if(!k){showToast('Cole sua API key.',false);return;}
-  LS.set('serpapi_key',k);
-  document.getElementById('apiSaved').style.display='flex';
-  showToast('Chave SerpApi salva!');
-}
-function saveClaudeKey() {
-  const k = document.getElementById('claudeKeyInput').value.trim();
-  if(!k){showToast('Cole sua API key do Claude.',false);return;}
-  LS.set('claude_key',k);
-  document.getElementById('claudeSaved').style.display='flex';
-  showToast('Chave Claude salva!');
-}
-function saveWebhookSettings() {
-  const u = document.getElementById('webhookInputSettings').value.trim();
-  if(!u){showToast('Informe a URL.',false);return;}
-  LS.set('webhook_url',u);
-  document.getElementById('webhookInput').value=u;
-  showToast('Webhook salvo!');
-}
-function saveWorkerUrl() {
-  const u = document.getElementById('workerUrlInput').value.trim();
-  LS.set('worker_url', u);
-  showToast('Worker URL salvo!');
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) { showToast('Cole sua API key da SerpApi.', false); return; }
+  LS.set('serpapi_key', key);
+  document.getElementById('apiSaved').style.display = 'flex';
+  showToast('Chave salva!');
 }
 
 // ── Filters ──
 function setSiteFilter(v) {
-  filterSite=v;
-  ['siteAll','siteYes','siteNo'].forEach(id=>document.getElementById(id).classList.remove('active'));
-  document.getElementById(v==='all'?'siteAll':v==='yes'?'siteYes':'siteNo').classList.add('active');
+  filterSite = v;
+  ['siteAll','siteYes','siteNo'].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(v === 'all' ? 'siteAll' : v === 'yes' ? 'siteYes' : 'siteNo').classList.add('active');
   applyFiltersAndRender();
 }
+
 function setPhoneFilter(v) {
-  filterPhone=v;
-  ['phoneAll','phoneYes','phoneNo'].forEach(id=>document.getElementById(id).classList.remove('active'));
-  document.getElementById(v==='all'?'phoneAll':v==='yes'?'phoneYes':'phoneNo').classList.add('active');
+  filterPhone = v;
+  ['phoneAll','phoneYes','phoneNo'].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(v === 'all' ? 'phoneAll' : v === 'yes' ? 'phoneYes' : 'phoneNo').classList.add('active');
   applyFiltersAndRender();
 }
+
 function setRatingFilter(v) {
-  filterRating=v;
-  ['ratingAll','rating3','rating4','rating45'].forEach(id=>document.getElementById(id).classList.remove('active'));
-  ({0:'ratingAll',3:'rating3',4:'rating4',4.5:'rating45'})[v] && document.getElementById(({0:'ratingAll',3:'rating3',4:'rating4',4.5:'rating45'})[v]).classList.add('active');
+  filterRating = v;
+  ['ratingAll','rating3','rating4','rating45'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const map = {0:'ratingAll', 3:'rating3', 4:'rating4', 4.5:'rating45'};
+  if (map[v]) document.getElementById(map[v]).classList.add('active');
   applyFiltersAndRender();
 }
-function setStatusFilter(v) {
-  filterStatus=v;
-  ['statusAll','statusNew','statusContacted','statusInterested'].forEach(id=>document.getElementById(id).classList.remove('active'));
-  ({all:'statusAll',new:'statusNew',contacted:'statusContacted',interested:'statusInterested'})[v] && document.getElementById(({all:'statusAll',new:'statusNew',contacted:'statusContacted',interested:'statusInterested'})[v]).classList.add('active');
-  applyFiltersAndRender();
-}
+
 function setSort(mode) {
-  if(sortMode===mode && mode!=='default'){sortDir*=-1;}else{sortMode=mode;sortDir=-1;}
-  ['sortDefault','sortRating','sortReviews'].forEach(id=>document.getElementById(id).classList.remove('active'));
-  ({default:'sortDefault',rating:'sortRating',reviews:'sortReviews'})[mode] && document.getElementById(({default:'sortDefault',rating:'sortRating',reviews:'sortReviews'})[mode]).classList.add('active');
+  if (sortMode === mode && mode !== 'default') { sortDir *= -1; }
+  else { sortMode = mode; sortDir = -1; }
+  ['sortDefault','sortRating','sortReviews'].forEach(id => document.getElementById(id).classList.remove('active'));
+  const map = {default:'sortDefault', rating:'sortRating', reviews:'sortReviews'};
+  if (map[mode]) document.getElementById(map[mode]).classList.add('active');
   applyFiltersAndRender();
 }
-function toggleSort(f){setSort(f);}
+
+function toggleSort(field) {
+  setSort(field === sortMode ? field : field);
+}
 
 function getFilteredLeads() {
-  let r = [...allLeads];
-  if(filterSite==='yes') r=r.filter(l=>l.website);
-  if(filterSite==='no')  r=r.filter(l=>!l.website);
-  if(filterPhone==='yes') r=r.filter(l=>l.phone);
-  if(filterPhone==='no')  r=r.filter(l=>!l.phone);
-  if(filterRating>0) r=r.filter(l=>parseFloat(l.rating)>=filterRating);
-  if(filterStatus!=='all') r=r.filter(l=>(l.status||'new')===filterStatus);
-  if(sortMode!=='default') {
-    r.sort((a,b)=>{
-      let va,vb;
-      if(sortMode==='rating'){va=parseFloat(a.rating)||0;vb=parseFloat(b.rating)||0;}
-      else if(sortMode==='reviews'){va=parseInt(a.reviews)||0;vb=parseInt(b.reviews)||0;}
-      else if(sortMode==='name'){va=a.name.toLowerCase();vb=b.name.toLowerCase();return va<vb?sortDir:va>vb?-sortDir:0;}
-      return (vb-va)*(sortDir<0?1:-1);
+  let result = [...allLeads];
+
+  if (filterSite === 'yes') result = result.filter(l => l.website);
+  if (filterSite === 'no')  result = result.filter(l => !l.website);
+  if (filterPhone === 'yes') result = result.filter(l => l.phone);
+  if (filterPhone === 'no')  result = result.filter(l => !l.phone);
+  if (filterRating > 0) result = result.filter(l => parseFloat(l.rating) >= filterRating);
+
+  if (sortMode !== 'default') {
+    result.sort((a, b) => {
+      let va, vb;
+      if (sortMode === 'rating') { va = parseFloat(a.rating)||0; vb = parseFloat(b.rating)||0; }
+      else if (sortMode === 'reviews') { va = parseInt(a.reviews)||0; vb = parseInt(b.reviews)||0; }
+      else if (sortMode === 'name') { va = a.name.toLowerCase(); vb = b.name.toLowerCase(); return va < vb ? sortDir : va > vb ? -sortDir : 0; }
+      return (vb - va) * (sortDir < 0 ? 1 : -1);
     });
   }
-  return r;
+
+  return result;
 }
-function applyFiltersAndRender(){currentPage=1;renderTable();renderPagination();}
+
+function applyFiltersAndRender() {
+  currentPage = 1;
+  renderTable();
+  renderPagination();
+}
 
 // ── Search ──
 async function startSearch() {
@@ -788,501 +719,314 @@ async function startSearch() {
   const lang = document.getElementById('langInput').value;
   const limit = parseInt(document.getElementById('limitInput').value);
 
-  if(!query){showToast('Informe um termo.',false);document.getElementById('queryInput').focus();return;}
-  if(!apiKey){showToast('Configure sua chave SerpApi em Config.',false);switchTab('settings');return;}
+  if (!query) { showToast('Informe um termo de busca.', false); document.getElementById('queryInput').focus(); return; }
+  if (!apiKey) { showToast('Salve sua chave SerpApi antes de buscar.', false); document.getElementById('apiKeyInput').focus(); return; }
 
-  const fullQuery = location?`${query} em ${location}`:query;
-  setStatus('loading','Buscando leads no Google Maps...');
-  document.getElementById('searchBtn').disabled=true;
-  document.getElementById('actionsBar').style.display='none';
-  allLeads=[];renderTable();
+  const fullQuery = location ? `${query} em ${location}` : query;
+
+  setStatus('loading', 'Buscando leads no Google Maps...');
+  document.getElementById('searchBtn').disabled = true;
+  document.getElementById('actionsBar').style.display = 'none';
+  allLeads = [];
+  renderTable();
 
   try {
     const leads = await fetchAllLeads(fullQuery, apiKey, lang, limit);
-    // Deduplicar por telefone e nome
-    const seen = new Set();
-    allLeads = leads.filter(l=>{
-      const key = (l.phone||l.name).toLowerCase();
-      if(seen.has(key)) return false;
-      seen.add(key); return true;
-    });
-    // Restaurar status/notas salvas
-    allLeads = allLeads.map(l=>{
-      const saved = LS.get('lead_'+l.place_id);
-      if(saved){try{const d=JSON.parse(saved);l.status=d.status||'new';l.note=d.note||'';}catch{}}
-      return l;
-    });
-    currentPage=1;renderTable();renderPagination();
-    document.getElementById('actionsBar').style.display='flex';
-    const filtered=getFilteredLeads();
-    document.getElementById('countNum').textContent=filtered.length;
-    document.getElementById('countLabel').textContent='leads';
-    setStatus('success',`${allLeads.length} leads encontrados${leads.length>allLeads.length?' ('+( leads.length-allLeads.length)+' duplicados removidos)':''}.`);
-    if(!allLeads.length) setStatus('error','Nenhum resultado encontrado. Tente outro termo ou localização.');
-    saveHistory(fullQuery, allLeads.length);
-    currentMapLeads = [...allLeads];
-    addChatMessage('ai',`Busca concluída! Encontrei **${allLeads.length} leads** para "${fullQuery}". Posso analisar os resultados, gerar mensagens de prospecção ou responder qualquer dúvida sobre os leads.`);
-  } catch(err) {
-    setStatus('error','Erro: '+err.message);
+    allLeads = leads;
+    currentPage = 1;
+    renderTable();
+    renderPagination();
+    document.getElementById('actionsBar').style.display = 'flex';
+    const filtered = getFilteredLeads();
+    document.getElementById('countNum').textContent = filtered.length;
+    document.getElementById('countLabel').textContent = allLeads.length === filtered.length
+      ? 'leads encontrados'
+      : `de ${allLeads.length} exibindo com filtros`;
+    setStatus('success', `${allLeads.length} leads encontrados para "${fullQuery}".`);
+    if (allLeads.length === 0) setStatus('error', 'Nenhum resultado encontrado. Tente outro termo ou verifique sua chave SerpApi.');
+  } catch (err) {
+    setStatus('error', 'Erro: ' + err.message);
     showToast('Erro ao buscar. Verifique a chave SerpApi.', false);
   } finally {
-    document.getElementById('searchBtn').disabled=false;
+    document.getElementById('searchBtn').disabled = false;
   }
 }
 
 async function fetchAllLeads(query, apiKey, lang, limit) {
-  const leads=[]; let start=0; const batch=20;
-  const workerUrl = LS.get('worker_url') || 'https://extrator.iscodest.workers.dev';
+  const leads = [];
+  let start = 0;
+  const batchSize = 20;
 
-  while(leads.length<limit) {
-    const params = new URLSearchParams({engine:'google_maps',q:query,hl:lang,start,api_key:apiKey});
-    const baseUrl = workerUrl ? workerUrl + '/?' : 'https://serpapi.com/search.json?';
-    const url = workerUrl ? `${workerUrl}/?${params}` : `https://serpapi.com/search.json?${params}`;
+  while (leads.length < limit) {
+    const params = new URLSearchParams({
+      engine: 'google_maps',
+      q: query,
+      hl: lang,
+      start: start,
+      api_key: apiKey,
+    });
+    const url = `https://serpapi.com/search?${params}`;
     const res = await fetch(url);
-    if(!res.ok){const b=await res.json().catch(()=>({}));throw new Error(b.error||`HTTP ${res.status}`);}
-    const data = await res.json();
-    if(data.error) throw new Error(data.error);
-    const results = data.local_results||[];
-    if(!results.length) break;
-    for(const r of results){
-      leads.push({
-        name:r.title||'',type:r.type||'',types:r.types||[],
-        rating:r.rating||'',reviews:r.reviews||'',
-        phone:r.phone||'',website:r.website||'',
-        address:r.address||'',country:r.country||'',
-        maps_url:r.place_id?`https://www.google.com/maps/place/?q=place_id:${r.place_id}`:(r.link||''),
-        place_id:r.place_id||'',hours:r.hours||'',
-        operating_hours:r.operating_hours||null,
-        gps:r.gps_coordinates?`${r.gps_coordinates.latitude},${r.gps_coordinates.longitude}`:'',
-        lat:r.gps_coordinates?.latitude||null,lng:r.gps_coordinates?.longitude||null,
-        thumbnail:r.thumbnail||r.serpapi_thumbnail||'',
-        open_state:r.open_state||'',
-        status:'new',note:'',
-      });
-      if(leads.length>=limit) break;
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      throw new Error(body.error || `HTTP ${res.status}`);
     }
-    if(results.length<batch||leads.length>=limit) break;
-    start+=batch;
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+
+    const results = data.local_results || [];
+    if (results.length === 0) break;
+
+    for (const r of results) {
+      leads.push({
+        name: r.title || '',
+        type: r.type || '',
+        rating: r.rating || '',
+        reviews: r.reviews || '',
+        phone: r.phone || '',
+        website: r.website || '',
+        address: r.address || '',
+        maps_url: r.place_id ? `https://www.google.com/maps/place/?q=place_id:${r.place_id}` : (r.link || ''),
+        place_id: r.place_id || '',
+        hours: r.hours || '',
+        gps: r.gps_coordinates ? `${r.gps_coordinates.latitude},${r.gps_coordinates.longitude}` : '',
+        email: r.email || '',
+      });
+      if (leads.length >= limit) break;
+    }
+
+    if (results.length < batchSize) break;
+    start += batchSize;
+    if (leads.length >= limit) break;
   }
+
   return leads;
 }
 
 // ── Render table ──
 function renderTable() {
-  const tbody=document.getElementById('tbody');
-  const noData=document.getElementById('noData');
-  const filtered=getFilteredLeads();
+  const tbody = document.getElementById('tbody');
+  const noData = document.getElementById('noData');
+  const filtered = getFilteredLeads();
 
-  if(allLeads.length>0){
-    document.getElementById('countNum').textContent=filtered.length;
-    document.getElementById('countLabel').textContent=filtered.length===allLeads.length?'leads':`de ${allLeads.length} (filtrado)`;
-    const fc=document.getElementById('filterCount');
-    const hasF=filterSite!=='all'||filterPhone!=='all'||filterRating>0||filterStatus!=='all'||sortMode!=='default';
-    fc.textContent=hasF?`${filtered.length} resultado${filtered.length!==1?'s':''} com filtros`:'';
+  // Update count
+  if (allLeads.length > 0) {
+    document.getElementById('countNum').textContent = filtered.length;
+    document.getElementById('countLabel').textContent = filtered.length === allLeads.length
+      ? 'leads encontrados'
+      : `de ${allLeads.length} (filtrado)`;
+
+    const fc = document.getElementById('filterCount');
+    const hasFilter = filterSite !== 'all' || filterPhone !== 'all' || filterRating > 0 || sortMode !== 'default';
+    fc.textContent = hasFilter ? `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''} com filtros ativos` : '';
   }
 
-  if(!filtered.length){
-    tbody.innerHTML='';noData.style.display='block';
-    noData.innerHTML=allLeads.length>0
-      ?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Nenhum resultado com os filtros.<br><span style="font-size:12px;color:var(--muted)">Ajuste os filtros acima.</span>`
-      :`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Nenhum lead ainda.<br>Faça uma busca para começar.`;
-    document.getElementById('leadsTable').style.display='none';
-    document.getElementById('pagination').style.display='none';
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    noData.style.display = 'block';
+    noData.innerHTML = allLeads.length > 0
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Nenhum resultado com os filtros atuais.<br><span style="font-size:12px;color:var(--muted)">Tente ajustar os filtros acima.</span>`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>Nenhum lead ainda.<br>Faça uma busca para começar.`;
+    document.getElementById('leadsTable').style.display = 'none';
+    document.getElementById('pagination').style.display = 'none';
     return;
   }
 
-  noData.style.display='none';
-  document.getElementById('leadsTable').style.display='table';
-  const startIdx=(currentPage-1)*PER_PAGE;
-  const page=filtered.slice(startIdx,startIdx+PER_PAGE);
+  noData.style.display = 'none';
+  document.getElementById('leadsTable').style.display = 'table';
 
-  tbody.innerHTML=page.map((l,i)=>{
-    const globalIdx=allLeads.indexOf(l);
-    const status=l.status||'new';
-    const statusClass={'new':'s-new','contacted':'s-contacted','interested':'s-interested','discarded':'s-discarded'}[status]||'s-new';
-    const rowClass={'contacted':'status-contacted','interested':'status-interested','discarded':'status-discarded'}[status]||'';
-    const waLink=l.phone?`https://wa.me/${l.phone.replace(/\D/g,'')}`:'';
-    const hasNote=l.note&&l.note.length>0;
-    return `<tr class="${rowClass}" id="row-${globalIdx}">
-      <td style="color:var(--muted);font-size:12px;">${startIdx+i+1}</td>
-      <td style="padding:8px 6px;">
-        ${l.thumbnail
-          ?`<img class="lead-photo" src="${esc(l.thumbnail)}" alt="" loading="lazy" onerror="this.style.display='none'">`
-          :`<div class="lead-photo-placeholder">🏢</div>`}
+  const startIdx = (currentPage - 1) * PER_PAGE;
+  const page = filtered.slice(startIdx, startIdx + PER_PAGE);
+
+  tbody.innerHTML = page.map((l, i) => `
+    <tr>
+      <td style="color:var(--muted);font-size:12px;">${startIdx + i + 1}</td>
+      <td class="name">
+        <span title="${esc(l.name)}">${esc(l.name)}</span>
+        ${l.maps_url ? `<br><a href="${esc(l.maps_url)}" target="_blank" rel="noopener">Ver no Maps ↗</a>` : ''}
       </td>
-      <td class="name-cell">
-        <div class="lead-name" title="${esc(l.name)}">${esc(l.name)}</div>
-        <div class="lead-links">
-          ${l.maps_url?`<a href="${esc(l.maps_url)}" target="_blank" rel="noopener">Maps ↗</a>`:''}
-          ${l.operating_hours?`<a href="#" onclick="showHours(${globalIdx});return false;">Horários</a>`:''}
-          ${l.open_state?`<span style="font-size:11px;color:${l.open_state.includes('Aberto')?'var(--acc)':'#fca5a5'}">${esc(l.open_state)}</span>`:''}
-        </div>
+      <td>${l.type ? `<span class="badge-type" title="${esc(l.type)}">${esc(l.type)}</span>` : '<span style="color:var(--muted2)">—</span>'}</td>
+      <td class="rating">
+        ${l.rating ? `<span class="stars">★</span><strong style="color:var(--text)">${l.rating}</strong> <span class="rev-count">(${(l.reviews||'').toLocaleString()})</span>` : '<span style="color:var(--muted2)">—</span>'}
       </td>
-      <td>${l.type?`<span class="badge-type" title="${esc(l.type)}">${esc(l.type)}</span>`:'<span style="color:var(--muted2)">—</span>'}</td>
-      <td>${l.rating?`<span class="stars">★</span><strong style="color:var(--text)">${l.rating}</strong> <span class="rev-count">(${Number(l.reviews||0).toLocaleString('pt-BR')})</span>`:'<span style="color:var(--muted2)">—</span>'}</td>
-      <td style="color:var(--muted2);font-size:12px;">${l.reviews?Number(l.reviews).toLocaleString('pt-BR'):'—'}</td>
-      <td class="phone-cell">
+      <td style="color:var(--muted2);font-size:12px;">${l.reviews ? Number(l.reviews).toLocaleString('pt-BR') : '—'}</td>
+      <td class="phone">
         ${l.phone
-          ?`<span class="phone-val">${esc(l.phone)}</span><button class="copy-btn" onclick="copyText('${esc(l.phone)}','Telefone copiado!')" title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`
-          :'<span style="color:var(--muted2)">—</span>'}
+          ? `${esc(l.phone)}<button class="copy-btn" onclick="copyText('${esc(l.phone)}', 'Telefone copiado!')" title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`
+          : '<span style="color:var(--muted2)">—</span>'}
       </td>
       <td>
         ${l.website
-          ?`<a href="${esc(l.website)}" target="_blank" rel="noopener" style="color:var(--acc2);font-size:12px;">${shortUrl(l.website)}</a>`
-          :'<span class="badge-nosite">Sem site</span>'}
+          ? `<a href="${esc(l.website)}" target="_blank" rel="noopener" title="${esc(l.website)}">${shortUrl(l.website)}</a>`
+          : '<span class="badge-nosite">Sem site</span>'}
       </td>
-      <td class="addr-cell"><span title="${esc(l.address)}">${l.address?esc(l.address):'<span style="color:var(--muted2)">—</span>'}</span></td>
-      <td>
-        <select class="status-sel ${statusClass}" onchange="setLeadStatus(${globalIdx},this.value)">
-          <option value="new" ${status==='new'?'selected':''}>🔵 Novo</option>
-          <option value="contacted" ${status==='contacted'?'selected':''}>🟡 Contatado</option>
-          <option value="interested" ${status==='interested'?'selected':''}>🟢 Interessado</option>
-          <option value="discarded" ${status==='discarded'?'selected':''}>🔴 Descartado</option>
-        </select>
-      </td>
-      <td style="white-space:nowrap;">
-        ${waLink?`<a class="wa-btn" href="${waLink}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WA</a>`:''}
-        <button class="note-btn ${hasNote?'has-note':''}" onclick="openNote(${globalIdx})" title="${hasNote?'Ver anotação':'Adicionar anotação'}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        </button>
-        ${hasNote?`<span style="font-size:10px;color:var(--warn);margin-left:3px;" title="${esc(l.note)}">●</span>`:''}
-      </td>
-    </tr>`;
-  }).join('');
+      <td class="addr"><span title="${esc(l.address)}">${esc(l.address) || '<span style="color:var(--muted2)">—</span>'}</span></td>
+    </tr>
+  `).join('');
 }
 
 // ── Pagination ──
 function renderPagination() {
-  const pg=document.getElementById('pagination');
-  const filtered=getFilteredLeads();
-  const total=Math.ceil(filtered.length/PER_PAGE);
-  if(total<=1){pg.style.display='none';return;}
-  pg.style.display='flex';
-  let h=`<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
-  for(let p=1;p<=total;p++){
-    if(total>7&&Math.abs(p-currentPage)>2&&p!==1&&p!==total){
-      if(p===2||p===total-1) h+=`<span style="color:var(--muted2);padding:0 4px;">…</span>`;
+  const pagination = document.getElementById('pagination');
+  const filtered = getFilteredLeads();
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  if (totalPages <= 1) { pagination.style.display = 'none'; return; }
+  pagination.style.display = 'flex';
+
+  let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let p = 1; p <= totalPages; p++) {
+    if (totalPages > 7 && Math.abs(p - currentPage) > 2 && p !== 1 && p !== totalPages) {
+      if (p === 2 || p === totalPages - 1) html += `<span class="page-info">…</span>`;
       continue;
     }
-    h+=`<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+    html += `<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
   }
-  h+=`<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===total?'disabled':''}>›</button>`;
-  pg.innerHTML=h;
-}
-function goPage(p){
-  const total=Math.ceil(getFilteredLeads().length/PER_PAGE);
-  if(p<1||p>total) return;
-  currentPage=p;renderTable();renderPagination();
-  document.getElementById('tableWrap').scrollIntoView({behavior:'smooth',block:'start'});
+  html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  pagination.innerHTML = html;
 }
 
-// ── Lead status & notes ──
-function setLeadStatus(idx, status) {
-  allLeads[idx].status=status;
-  saveLeadData(idx);
-  const row=document.getElementById('row-'+idx);
-  if(row){
-    row.className=['contacted','interested','discarded'].includes(status)?'status-'+status:'';
-  }
-  const sel=row?.querySelector('.status-sel');
-  if(sel){
-    sel.className='status-sel '+({'new':'s-new','contacted':'s-contacted','interested':'s-interested','discarded':'s-discarded'}[status]||'s-new');
-  }
-}
-function saveLeadData(idx){
-  const l=allLeads[idx];
-  if(l.place_id) LS.set('lead_'+l.place_id, JSON.stringify({status:l.status,note:l.note}));
-}
-function openNote(idx){
-  noteLeadIdx=idx;
-  document.getElementById('noteLeadName').textContent=allLeads[idx].name;
-  document.getElementById('noteTextarea').value=allLeads[idx].note||'';
-  document.getElementById('noteModal').classList.add('open');
-  setTimeout(()=>document.getElementById('noteTextarea').focus(),80);
-}
-function saveNote(){
-  if(noteLeadIdx===null) return;
-  allLeads[noteLeadIdx].note=document.getElementById('noteTextarea').value;
-  saveLeadData(noteLeadIdx);
-  closeNoteModal();renderTable();
-  showToast('Anotação salva!');
-}
-function clearNote(){
-  if(noteLeadIdx===null) return;
-  allLeads[noteLeadIdx].note='';
-  saveLeadData(noteLeadIdx);
-  closeNoteModal();renderTable();
-  showToast('Anotação removida.');
-}
-function closeNoteModal(){document.getElementById('noteModal').classList.remove('open');noteLeadIdx=null;}
-
-// ── Hours ──
-function showHours(idx){
-  const l=allLeads[idx];
-  document.getElementById('hoursLeadName').textContent=l.name;
-  if(l.operating_hours){
-    const days=['segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado','domingo'];
-    const h=document.getElementById('hoursContent');
-    h.innerHTML=`<table class="hours-table">${days.map(d=>`<tr><td>${d}</td><td class="${(l.operating_hours[d]||'').toLowerCase().includes('24')||l.operating_hours[d]?'hours-open':''}">${l.operating_hours[d]||'Fechado'}</td></tr>`).join('')}</table>`;
-  } else {
-    document.getElementById('hoursContent').innerHTML=`<p style="color:var(--muted2);">${l.hours||'Sem informação de horário.'}</p>`;
-  }
-  document.getElementById('hoursModal').classList.add('open');
-}
-function closeHoursModal(){document.getElementById('hoursModal').classList.remove('open');}
-
-// ── Map ──
-function showOnMap(){switchTab('map');renderMap();}
-function renderMap(){
-  const leads=getFilteredLeads().filter(l=>l.lat&&l.lng);
-  const mc=document.getElementById('mapCount');
-  mc.textContent=leads.length?`${leads.length} leads com localização`:'';
-  if(!leads.length){
-    document.getElementById('mapContainer').innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span style="font-size:14px;">Nenhum lead com coordenadas disponíveis.</span>`;
-    return;
-  }
-  const center=leads[0];
-  const markers=leads.slice(0,20).map((l,i)=>`${l.lat},${l.lng}(${i+1})`).join('|');
-  // Use Google Maps embed with multiple markers
-  const apiMapUrl=`https://maps.google.com/maps?q=${center.lat},${center.lng}&z=12&output=embed`;
-  document.getElementById('mapContainer').innerHTML=`
-    <div style="width:100%;height:100%;display:flex;flex-direction:column;">
-      <div style="padding:12px 16px;background:var(--card2);border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:8px;overflow-y:auto;max-height:140px;">
-        ${leads.slice(0,20).map((l,i)=>`<span style="font-size:11px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);border-radius:999px;padding:3px 10px;color:var(--acc2);cursor:pointer;" onclick="window.open('${esc(l.maps_url||'')}','_blank')">${i+1}. ${esc(l.name.slice(0,25))}</span>`).join('')}
-        ${leads.length>20?`<span style="font-size:11px;color:var(--muted2);">+${leads.length-20} mais</span>`:''}
-      </div>
-      <iframe src="${apiMapUrl}" style="flex:1;border:none;" loading="lazy" allowfullscreen></iframe>
-    </div>`;
+function goPage(p) {
+  const filtered = getFilteredLeads();
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (p < 1 || p > total) return;
+  currentPage = p;
+  renderTable();
+  renderPagination();
+  document.getElementById('tableWrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── Export ──
-function toggleExportMenu(e){e.stopPropagation();document.getElementById('exportMenu').classList.toggle('open');}
-function closeExportMenu(){document.getElementById('exportMenu').classList.remove('open');}
+function toggleExportMenu(e) {
+  e.stopPropagation();
+  document.getElementById('exportMenu').classList.toggle('open');
+}
+function closeExportMenu() {
+  document.getElementById('exportMenu').classList.remove('open');
+}
 
-function exportCSV(){
-  const leads=getFilteredLeads();
-  if(!leads.length){showToast('Nenhum lead para exportar.',false);return;}
-  const h=['#','Nome','Tipo','Avaliação','Reviews','Telefone','Site','Endereço','Status','Anotação','Maps URL','GPS'];
-  const rows=leads.map((l,i)=>[i+1,l.name,l.type,l.rating,l.reviews,l.phone,l.website,l.address,l.status,l.note,l.maps_url,l.gps].map(v=>`"${String(v||'').replace(/"/g,'""')}"`));
-  const csv=[h.join(','),...rows.map(r=>r.join(','))].join('\n');
-  downloadBlob(new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'}),`leads_${slug()}.csv`);
+function exportCSV() {
+  const leads = getFilteredLeads();
+  if (!leads.length) { showToast('Nenhum lead para exportar.', false); return; }
+  const headers = ['#','Nome','Tipo','Avaliação','Reviews','Telefone','Site','Endereço','Maps URL','Place ID','GPS'];
+  const rows = leads.map((l, i) => [
+    i+1, l.name, l.type, l.rating, l.reviews, l.phone, l.website, l.address, l.maps_url, l.place_id, l.gps
+  ].map(v => `"${String(v||'').replace(/"/g,'""')}"`));
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  const blob = new Blob(['\uFEFF'+csv], { type: 'text/csv;charset=utf-8;' });
+  downloadBlob(blob, `leads_${slugQuery()}.csv`);
   showToast(`CSV exportado com ${leads.length} leads!`);
 }
-function exportJSON(){
-  const leads=getFilteredLeads();
-  if(!leads.length){showToast('Nenhum lead.',false);return;}
-  downloadBlob(new Blob([JSON.stringify(leads,null,2)],{type:'application/json'}),`leads_${slug()}.json`);
+
+function exportJSON() {
+  const leads = getFilteredLeads();
+  if (!leads.length) { showToast('Nenhum lead para exportar.', false); return; }
+  const blob = new Blob([JSON.stringify(leads, null, 2)], { type: 'application/json' });
+  downloadBlob(blob, `leads_${slugQuery()}.json`);
   showToast(`JSON exportado com ${leads.length} leads!`);
 }
-function copyPhones(){
-  const phones=getFilteredLeads().map(l=>l.phone).filter(Boolean);
-  if(!phones.length){showToast('Nenhum telefone.',false);return;}
-  navigator.clipboard.writeText(phones.join('\n')).then(()=>showToast(`${phones.length} telefones copiados!`));
-}
-function downloadBlob(b,n){const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);}
-function slug(){return document.getElementById('queryInput').value.trim().replace(/[^a-z0-9]/gi,'_').slice(0,30)+'_'+Date.now();}
 
-// ── Prospecção via IA ──
-async function generateProspectMsg(){
-  const claudeKey=LS.get('claude_key');
-  if(!claudeKey){showToast('Configure a chave do Claude em Config.',false);switchTab('settings');return;}
-  const leads=getFilteredLeads().slice(0,3);
-  if(!leads.length){showToast('Nenhum lead para gerar mensagem.',false);return;}
-  document.getElementById('prospectContent').innerHTML='<div class="spinner" style="margin:20px auto;"></div>';
-  document.getElementById('prospectModal').classList.add('open');
-  try {
-    const prompt=`Você é um especialista em prospecção B2B. Com base nos seguintes leads do Google Maps, crie uma mensagem de prospecção personalizada para cada um (WhatsApp, direta e profissional, máximo 150 palavras cada):\n\n${leads.map((l,i)=>`${i+1}. ${l.name} — ${l.type} — ${l.address} — ${l.reviews} avaliações — ${l.website?'tem site':'sem site'}`).join('\n')}\n\nPara cada lead, destaque o motivo do contato e ofereça valor específico.`;
-    const res=await callClaude(claudeKey,prompt);
-    document.getElementById('prospectContent').innerHTML=`<div style="white-space:pre-wrap;font-size:13px;color:var(--text2);line-height:1.65;">${esc(res)}</div>`;
-    document.getElementById('prospectContent').dataset.text=res;
-  } catch(e){
-    document.getElementById('prospectContent').innerHTML=`<p style="color:#fca5a5;">Erro: ${esc(e.message)}</p>`;
-  }
-}
-function copyProspectMsg(){
-  const t=document.getElementById('prospectContent').dataset.text||document.getElementById('prospectContent').innerText;
-  navigator.clipboard.writeText(t).then(()=>showToast('Copiado!'));
+function copyPhones() {
+  const leads = getFilteredLeads();
+  const phones = leads.map(l => l.phone).filter(Boolean);
+  if (!phones.length) { showToast('Nenhum telefone nos leads filtrados.', false); return; }
+  navigator.clipboard.writeText(phones.join('\n')).then(() => showToast(`${phones.length} telefones copiados!`));
 }
 
-// ── History ──
-function saveHistory(query, count){
-  const h=JSON.parse(LS.get('search_history')||'[]');
-  h.unshift({query,count,date:new Date().toISOString()});
-  LS.set('search_history',JSON.stringify(h.slice(0,30)));
+function copyEmails() {
+  const leads = getFilteredLeads();
+  const emails = leads.map(l => l.email).filter(Boolean);
+  if (!emails.length) { showToast('Nenhum e-mail encontrado nos leads.', false); return; }
+  navigator.clipboard.writeText(emails.join('\n')).then(() => showToast(`${emails.length} e-mails copiados!`));
 }
-function renderHistory(){
-  const h=JSON.parse(LS.get('search_history')||'[]');
-  const el=document.getElementById('historyList');
-  if(!h.length){el.innerHTML='<div class="history-empty">Nenhuma busca realizada ainda.</div>';return;}
-  el.innerHTML=h.map((item,i)=>{
-    const d=new Date(item.date);
-    const dateStr=d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    return `<div class="history-item" onclick="replaySearch('${esc(item.query)}')">
-      <div style="width:36px;height:36px;border-radius:10px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.2);display:grid;place-items:center;flex-shrink:0;font-size:16px;">🔍</div>
-      <div class="history-info">
-        <div class="history-query">${esc(item.query)}</div>
-        <div class="history-meta">${dateStr}</div>
-      </div>
-      <div class="history-count">${item.count} leads</div>
-    </div>`;
-  }).join('');
+
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text).then(() => showToast(msg || 'Copiado!'));
 }
-function replaySearch(query){
-  const parts=query.split(' em ');
-  document.getElementById('queryInput').value=parts[0];
-  if(parts[1]) document.getElementById('locationInput').value=parts[1];
-  switchTab('search');
-  setTimeout(startSearch,100);
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
 }
-function clearHistory(){
-  if(!confirm('Limpar histórico?')) return;
-  LS.set('search_history','[]');renderHistory();showToast('Histórico limpo.');
+
+function slugQuery() {
+  return document.getElementById('queryInput').value.trim().replace(/[^a-z0-9]/gi,'_').slice(0,30) + '_' + Date.now();
 }
 
 // ── Webhook ──
-function openWebhookModal(){document.getElementById('webhookModal').classList.add('open');setTimeout(()=>document.getElementById('webhookInput').focus(),80);}
-function closeWebhookModal(){document.getElementById('webhookModal').classList.remove('open');}
-function saveWebhook(){
-  const url=document.getElementById('webhookInput').value.trim();
-  if(!url){showToast('Informe a URL.',false);return;}
-  try{new URL(url);}catch{showToast('URL inválida.',false);return;}
-  LS.set('webhook_url',url);
-  document.getElementById('webhookInputSettings').value=url;
-  showToast('Webhook salvo!');closeWebhookModal();
+function openWebhookModal() {
+  document.getElementById('webhookModal').classList.add('open');
+  setTimeout(() => document.getElementById('webhookInput').focus(), 80);
 }
-async function sendToWebhook(){
-  const url=LS.get('webhook_url');
-  if(!url){showToast('Configure um webhook primeiro.',false);openWebhookModal();return;}
-  const leads=getFilteredLeads();
-  if(!leads.length){showToast('Nenhum lead.',false);return;}
-  try{
-    setStatus('loading',`Enviando ${leads.length} leads...`);
-    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({leads,query:document.getElementById('queryInput').value,total:leads.length,sent_at:new Date().toISOString()})});
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    setStatus('success',`${leads.length} leads enviados!`);showToast(`${leads.length} leads enviados!`);
-  }catch(e){setStatus('error','Falha: '+e.message);showToast('Erro ao enviar.',false);}
+function closeWebhookModal() {
+  document.getElementById('webhookModal').classList.remove('open');
+}
+function saveWebhook() {
+  const url = document.getElementById('webhookInput').value.trim();
+  if (!url) { showToast('Informe a URL do webhook.', false); return; }
+  try { new URL(url); } catch { showToast('URL inválida.', false); return; }
+  LS.set('webhook_url', url);
+  showToast('Webhook salvo!');
+  closeWebhookModal();
+}
+async function sendToWebhook() {
+  const url = LS.get('webhook_url');
+  if (!url) { showToast('Configure um webhook primeiro.', false); openWebhookModal(); return; }
+  const leads = getFilteredLeads();
+  if (!leads.length) { showToast('Nenhum lead para enviar.', false); return; }
+  try {
+    setStatus('loading', `Enviando ${leads.length} leads ao webhook...`);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leads, query: document.getElementById('queryInput').value, total: leads.length, sent_at: new Date().toISOString() }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    setStatus('success', `${leads.length} leads enviados com sucesso!`);
+    showToast(`${leads.length} leads enviados!`);
+  } catch (err) {
+    setStatus('error', 'Falha ao enviar: ' + err.message);
+    showToast('Erro ao enviar webhook.', false);
+  }
 }
 
 // ── Clear ──
-function clearLeads(){
-  if(!allLeads.length) return;
-  if(!confirm('Apagar todos os leads?')) return;
-  allLeads=[];renderTable();
-  document.getElementById('actionsBar').style.display='none';
-  setStatus('idle','Informe um termo e clique em Buscar.');
-}
-
-// ── Claude API ──
-async function callClaude(apiKey, userMessage, systemPrompt='', history=[]) {
-  const messages=[...history,{role:'user',content:userMessage}];
-  const body={model:'claude-sonnet-4-6',max_tokens:1000,messages};
-  if(systemPrompt) body.system=systemPrompt;
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify(body)
-  });
-  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${res.status}`);}
-  const data=await res.json();
-  return data.content.map(c=>c.text||'').join('');
-}
-
-// ── Chat ──
-function toggleChat(){
-  const panel=document.getElementById('chatPanel');
-  panel.classList.toggle('open');
-  if(panel.classList.contains('open')){
-    document.getElementById('chatBadge').classList.remove('show');
-    document.getElementById('chatInput').focus();
-  }
-}
-
-function addChatMessage(role, text){
-  const msgs=document.getElementById('chatMessages');
-  const time=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-  const formatted=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>').replace(/- (.*)/g,'<li>$1</li>').replace(/(<li>.*<\/li>)/gs,'<ul>$1</ul>');
-  const div=document.createElement('div');
-  div.className=`msg ${role}`;
-  div.innerHTML=`<div class="msg-bubble">${formatted}</div><div class="msg-time">${time}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
-  if(role==='ai' && !document.getElementById('chatPanel').classList.contains('open')){
-    document.getElementById('chatBadge').classList.add('show');
-  }
-}
-
-function showTyping(){
-  const msgs=document.getElementById('chatMessages');
-  const div=document.createElement('div');
-  div.className='msg ai';div.id='typingIndicator';
-  div.innerHTML='<div class="msg-bubble"><div class="chat-typing"><span></span><span></span><span></span></div></div>';
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
-}
-function removeTyping(){document.getElementById('typingIndicator')?.remove();}
-
-async function sendChatMessage(){
-  const input=document.getElementById('chatInput');
-  const msg=input.value.trim();
-  if(!msg) return;
-  const claudeKey=LS.get('claude_key');
-  if(!claudeKey){
-    addChatMessage('ai','Para usar o chat de IA, configure sua chave do Claude em **Config** ⚙️');
-    input.value='';return;
-  }
-  addChatMessage('user',msg);
-  input.value='';input.style.height='auto';
-  chatHistory.push({role:'user',content:msg});
-  document.getElementById('chatSendBtn').disabled=true;
-  showTyping();
-
-  const leads=getFilteredLeads();
-  const leadsCtx=leads.slice(0,30).map((l,i)=>`${i+1}. ${l.name} | ${l.type} | Tel: ${l.phone||'sem tel'} | Site: ${l.website||'sem site'} | Avaliação: ${l.rating||'—'} (${l.reviews||0} reviews) | ${l.address} | Status: ${l.status}`).join('\n');
-  const system=`Você é um assistente especialista em prospecção de leads e vendas B2B. Você tem acesso aos dados de ${leads.length} leads extraídos do Google Maps. Responda em português, de forma direta e útil. Use markdown simples (negrito com **).
-
-LEADS DISPONÍVEIS:
-${leadsCtx||'Nenhum lead carregado ainda.'}
-
-Contexto da busca: "${document.getElementById('queryInput').value}" em "${document.getElementById('locationInput').value}"`;
-
-  try{
-    const response=await callClaude(claudeKey,msg,system,chatHistory.slice(0,-1));
-    removeTyping();
-    addChatMessage('ai',response);
-    chatHistory.push({role:'assistant',content:response});
-    if(chatHistory.length>20) chatHistory=chatHistory.slice(-20);
-  }catch(e){
-    removeTyping();
-    addChatMessage('ai',`Erro ao conectar com a IA: ${e.message}. Verifique sua chave do Claude em Config.`);
-  }finally{
-    document.getElementById('chatSendBtn').disabled=false;
-  }
-}
-
-function sendSuggestion(text){
-  document.getElementById('chatInput').value=text;
-  sendChatMessage();
+function clearLeads() {
+  if (!allLeads.length) return;
+  if (!confirm('Apagar todos os leads da tela?')) return;
+  allLeads = [];
+  renderTable();
+  document.getElementById('actionsBar').style.display = 'none';
+  setStatus('idle', 'Informe um termo e clique em Buscar.');
+  showToast('Leads removidos da tela.');
 }
 
 // ── Status ──
-function setStatus(type,text){
-  const bar=document.getElementById('statusBar');
-  bar.className='status-bar '+type;
-  const sp=type==='loading'?'<div class="spinner"></div>':'';
-  bar.innerHTML=sp+`<span>${text}</span>`;
+function setStatus(type, text) {
+  const bar = document.getElementById('statusBar');
+  bar.className = 'status-bar ' + type;
+  const spinner = type === 'loading' ? '<div class="spinner" aria-hidden="true"></div>' : '';
+  bar.innerHTML = spinner + `<span>${text}</span>`;
 }
 
 // ── Toast ──
-let toastT;
-function showToast(msg,ok=true){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.className='toast show '+(ok?'ok':'err');
-  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800);
+let toastTimer;
+function showToast(msg, ok = true) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (ok ? 'ok' : 'err');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 // ── Utils ──
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function shortUrl(u){try{const x=new URL(u);return x.hostname.replace(/^www\./,'').slice(0,26);}catch{return String(u).slice(0,26);}}
-function copyText(t,m){navigator.clipboard.writeText(t).then(()=>showToast(m||'Copiado!'));}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function shortUrl(u) {
+  try { const x = new URL(u); return x.hostname.replace(/^www\./,'').slice(0,28); } catch { return u.slice(0,28); }
+}
 </script>
 </body>
 </html>
