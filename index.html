@@ -766,7 +766,7 @@ async function fetchAllLeads(query, apiKey, lang, limit) {
       start: start,
       api_key: apiKey,
     });
-const url = `https://serpapi.com/search.json?${params}`;
+const url = `https://extrator.iscodest.workers.dev/?${params}`;
     const res = await fetch(url);
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
