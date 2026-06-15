@@ -555,10 +555,10 @@
         <thead>
           <tr>
             <th>#</th>
-            <th onclick="toggleSort('name')" title="Ordenar por nome">Nome <span class="sort-icon">↕</span></th>
+            <th id="thName" onclick="toggleSort('name')" title="Ordenar por nome">Nome <span class="sort-icon">↕</span></th>
             <th>Tipo</th>
-            <th onclick="toggleSort('rating')" title="Ordenar por avaliação">Avaliação <span class="sort-icon">↕</span></th>
-            <th onclick="toggleSort('reviews')" title="Ordenar por reviews">Reviews <span class="sort-icon">↕</span></th>
+            <th id="thRating" onclick="toggleSort('rating')" title="Ordenar por avaliação">Avaliação <span class="sort-icon">↕</span></th>
+            <th id="thReviews" onclick="toggleSort('reviews')" title="Ordenar por reviews">Reviews <span class="sort-icon">↕</span></th>
             <th>Telefone</th>
             <th>Site</th>
             <th>Endereço</th>
@@ -606,6 +606,7 @@ const LS = {
 let allLeads = [];
 let currentPage = 1;
 const PER_PAGE = 20;
+let isLoading = false;
 
 // Filters
 let filterSite = 'all';    // 'all' | 'yes' | 'no'
@@ -635,6 +636,15 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     const dd = document.getElementById('exportDropdown');
     if (!dd.contains(e.target)) closeExportMenu();
+  });
+
+  // Delegated click handler for copy-phone buttons (avoids inline onclick with
+  // unescaped data, which could break or be exploited if a phone value
+  // contained quote characters)
+  document.getElementById('tbody').addEventListener('click', e => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    copyText(btn.dataset.copy || '', btn.dataset.msg || 'Copiado!');
   });
 });
 
@@ -676,11 +686,30 @@ function setSort(mode) {
   ['sortDefault','sortRating','sortReviews'].forEach(id => document.getElementById(id).classList.remove('active'));
   const map = {default:'sortDefault', rating:'sortRating', reviews:'sortReviews'};
   if (map[mode]) document.getElementById(map[mode]).classList.add('active');
+  updateSortHeaders();
   applyFiltersAndRender();
 }
 
+// Reflects the current sort column/direction on the clickable <th> headers
+// (previously the "sorted" class and arrow icons were never updated, so the
+// table headers always showed the neutral ↕ icon regardless of sort state).
+function updateSortHeaders() {
+  const headers = { name: 'thName', rating: 'thRating', reviews: 'thReviews' };
+  Object.entries(headers).forEach(([key, id]) => {
+    const th = document.getElementById(id);
+    const icon = th.querySelector('.sort-icon');
+    if (key === sortMode) {
+      th.classList.add('sorted');
+      icon.textContent = sortDir < 0 ? '↓' : '↑';
+    } else {
+      th.classList.remove('sorted');
+      icon.textContent = '↕';
+    }
+  });
+}
+
 function toggleSort(field) {
-  setSort(field === sortMode ? field : field);
+  setSort(field);
 }
 
 function getFilteredLeads() {
@@ -713,6 +742,8 @@ function applyFiltersAndRender() {
 
 // ── Search ──
 async function startSearch() {
+  if (isLoading) return; // avoid duplicate concurrent searches (e.g. pressing Enter while a search is running)
+
   const query = document.getElementById('queryInput').value.trim();
   const location = document.getElementById('locationInput').value.trim();
   const apiKey = LS.get('serpapi_key') || document.getElementById('apiKeyInput').value.trim();
@@ -724,6 +755,7 @@ async function startSearch() {
 
   const fullQuery = location ? `${query} em ${location}` : query;
 
+  isLoading = true;
   setStatus('loading', 'Buscando leads no Google Maps...');
   document.getElementById('searchBtn').disabled = true;
   document.getElementById('actionsBar').style.display = 'none';
@@ -749,6 +781,7 @@ async function startSearch() {
     showToast('Erro ao buscar. Verifique a chave SerpApi.', false);
   } finally {
     document.getElementById('searchBtn').disabled = false;
+    isLoading = false;
   }
 }
 
@@ -809,6 +842,13 @@ function renderTable() {
   const noData = document.getElementById('noData');
   const filtered = getFilteredLeads();
 
+  // Reset stale filter-count text when there are no leads at all
+  // (previously this label could keep showing a result from a search
+  // that was later cleared with "Limpar")
+  if (allLeads.length === 0) {
+    document.getElementById('filterCount').textContent = '';
+  }
+
   // Update count
   if (allLeads.length > 0) {
     document.getElementById('countNum').textContent = filtered.length;
@@ -847,12 +887,12 @@ function renderTable() {
       </td>
       <td>${l.type ? `<span class="badge-type" title="${esc(l.type)}">${esc(l.type)}</span>` : '<span style="color:var(--muted2)">—</span>'}</td>
       <td class="rating">
-        ${l.rating ? `<span class="stars">★</span><strong style="color:var(--text)">${l.rating}</strong> <span class="rev-count">(${(l.reviews||'').toLocaleString()})</span>` : '<span style="color:var(--muted2)">—</span>'}
+        ${l.rating ? `<span class="stars">★</span><strong style="color:var(--text)">${l.rating}</strong> <span class="rev-count">(${l.reviews ? Number(l.reviews).toLocaleString('pt-BR') : 0})</span>` : '<span style="color:var(--muted2)">—</span>'}
       </td>
       <td style="color:var(--muted2);font-size:12px;">${l.reviews ? Number(l.reviews).toLocaleString('pt-BR') : '—'}</td>
       <td class="phone">
         ${l.phone
-          ? `${esc(l.phone)}<button class="copy-btn" onclick="copyText('${esc(l.phone)}', 'Telefone copiado!')" title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`
+          ? `${esc(l.phone)}<button class="copy-btn" data-copy="${esc(l.phone)}" data-msg="Telefone copiado!" title="Copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>`
           : '<span style="color:var(--muted2)">—</span>'}
       </td>
       <td>
@@ -1022,7 +1062,7 @@ function showToast(msg, ok = true) {
 
 // ── Utils ──
 function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 function shortUrl(u) {
   try { const x = new URL(u); return x.hostname.replace(/^www\./,'').slice(0,28); } catch { return u.slice(0,28); }
